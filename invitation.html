@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .button {
+            display: inline-block;
+            background: white;
+            color: #4285f4;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .store-links {
+            margin-top: 30px;
+        }
+
+        .store-links a {
+            color: white;
+            text-decoration: underline;
+            margin: 0 10px;
+        }
+
+        .token-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">🎯</div>
+        <h1>Welcome to Task Manager!</h1>
+        <p>You've been invited to join our task management platform.</p>
+
+        <div class="token-info">
+            <p><strong>Invitation Token:</strong></p>
+            <p id="token">Loading...</p>
+        </div>
+
+        <a href="taskmanager://invite" class="button">Open App</a>
+
+        <div class="store-links">
+            <p>Don't have the app?</p>
+            <a href="https://play.google.com/store">Get it on Google Play</a>
+            <a href="https://apps.apple.com/">Download on App Store</a>
+        </div>
+    </div>
+
+    <script>
+        // Extract token from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (token) {
+            document.getElementById('token').textContent = token;
+
+            // Try to open the app with token
+            setTimeout(() => {
+                window.location.href = `taskmanager://invite?token=${token}`;
+            }, 1000);
+        } else {
+            document.getElementById('token').textContent = 'Invalid invitation link';
+        }
+
+        // Fallback to store after 3 seconds if app doesn't open
+        setTimeout(() => {
+            if (document.hidden === false) {
+                document.querySelector('.store-links').style.display = 'block';
+            }
+        }, 3000);
+    </script>
+</body>
+
+</html>

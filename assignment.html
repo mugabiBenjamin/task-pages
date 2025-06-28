@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .store-links {
+            margin-top: 30px;
+        }
+
+        .store-links a {
+            color: white;
+            text-decoration: underline;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">📋</div>
+        <h1>Task Assignment</h1>
+        <p>You've been assigned a new task. Open Task Manager to view details.</p>
+
+        <a href="taskmanager://task" class="button">Open App</a>
+
+        <div class="store-links">
+            <p>Don't have the app?</p>
+            <a href="https://play.google.com/store">Get it on Google Play</a>
+            <a href="https://apps.apple.com/">Download on App Store</a>
+        </div>
+    </div>
+
+    <script>
+        // Try to open the app, fallback to store
+        setTimeout(() => {
+            window.location.href = 'taskmanager://task';
+        }, 1000);
+
+        // Fallback to store after 3 seconds if app doesn't open
+        setTimeout(() => {
+            if (document.hidden === false) {
+                // App didn't open, show store options
+                document.querySelector('.store-links').style.display = 'block';
+            }
+        }, 3000);
+    </script>
+</body>
+
+</html>
