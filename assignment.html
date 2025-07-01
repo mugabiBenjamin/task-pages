@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Task Manager</title>
+    <title>Task Assignment</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,31 +41,15 @@
             opacity: 0.9;
         }
 
-        .button {
-            display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            margin: 10px;
-            transition: transform 0.2s;
+        .task-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 14px;
         }
 
-        .button:hover {
-            transform: translateY(-2px);
-        }
-
-        .store-links {
-            margin-top: 30px;
-        }
-
-        .store-links a {
-            color: white;
-            text-decoration: underline;
-            margin: 0 10px;
-        }
+        /* CHANGED: Removed .button and .store-links styles as they are no longer used */
     </style>
 </head>
 
@@ -73,30 +57,37 @@
     <div class="container">
         <div class="icon">📋</div>
         <h1>Task Assignment</h1>
-        <p>You've been assigned a new task. Open Task Manager to view details.</p>
+        <p>You've been assigned a new task.</p>
 
-        <a href="taskmanager://task" class="button">Open App</a>
-
-        <div class="store-links">
-            <p>Don't have the app?</p>
-            <a href="https://play.google.com/store">Get it on Google Play</a>
-            <a href="https://apps.apple.com/">Download on App Store</a>
+        <!-- ADDED: Display task ID -->
+        <div class="task-info">
+            <p><strong>Task ID:</strong></p>
+            <p id="taskId">Loading...</p>
         </div>
+
+        <!-- ADDED: Instructions for testers -->
+        <p>Open the Task Manager app on your test device and navigate to Task ID shown above to view details.</p>
+
+        <!-- CHANGED: Removed <a> button and .store-links section -->
     </div>
 
     <script>
-        // Try to open the app, fallback to store
-        setTimeout(() => {
-            window.location.href = 'taskmanager://task';
-        }, 1000);
+        // ADDED: Extract task ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskId = urlParams.get('id');
 
-        // Fallback to store after 3 seconds if app doesn't open
-        setTimeout(() => {
-            if (document.hidden === false) {
-                // App didn't open, show store options
-                document.querySelector('.store-links').style.display = 'block';
-            }
-        }, 3000);
+        // ADDED: Display task ID or error
+        if (taskId) {
+            document.getElementById('taskId').textContent = taskId;
+            // ADDED: Log task ID for debugging
+            console.log('Task ID:', taskId);
+        } else {
+            document.getElementById('taskId').textContent = 'Invalid task link';
+            // ADDED: Log error
+            console.log('Error: No task ID found in URL');
+        }
+
+        // CHANGED: Removed deep link redirect and store link fallback
     </script>
 </body>
 
