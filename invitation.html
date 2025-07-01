@@ -41,32 +41,6 @@
             opacity: 0.9;
         }
 
-        .button {
-            display: inline-block;
-            background: white;
-            color: #4285f4;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            margin: 10px;
-            transition: transform 0.2s;
-        }
-
-        .button:hover {
-            transform: translateY(-2px);
-        }
-
-        .store-links {
-            margin-top: 30px;
-        }
-
-        .store-links a {
-            color: white;
-            text-decoration: underline;
-            margin: 0 10px;
-        }
-
         .token-info {
             background: rgba(255, 255, 255, 0.2);
             padding: 15px;
@@ -74,6 +48,8 @@
             margin: 20px 0;
             font-size: 14px;
         }
+
+        /* CHANGED: Removed .button and .store-links styles as they are no longer used */
     </style>
 </head>
 
@@ -88,13 +64,11 @@
             <p id="token">Loading...</p>
         </div>
 
-        <a href="taskmanager://invite" class="button">Open App</a>
+        <!-- ADDED: Instructions for testers -->
+        <p>Open the Task Manager app on your test device, sign in with your email, and enter the token above if
+            prompted.</p>
 
-        <div class="store-links">
-            <p>Don't have the app?</p>
-            <a href="https://play.google.com/store">Get it on Google Play</a>
-            <a href="https://apps.apple.com/">Download on App Store</a>
-        </div>
+        <!-- CHANGED: Removed <a> button and .store-links section -->
     </div>
 
     <script>
@@ -102,23 +76,18 @@
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
 
+        // CHANGED: Enhanced error handling
         if (token) {
             document.getElementById('token').textContent = token;
-
-            // Try to open the app with token
-            setTimeout(() => {
-                window.location.href = `taskmanager://invite?token=${token}`;
-            }, 1000);
+            // ADDED: Log token for debugging
+            console.log('Invitation token:', token);
         } else {
             document.getElementById('token').textContent = 'Invalid invitation link';
+            // ADDED: Log error
+            console.log('Error: No token found in URL');
         }
 
-        // Fallback to store after 3 seconds if app doesn't open
-        setTimeout(() => {
-            if (document.hidden === false) {
-                document.querySelector('.store-links').style.display = 'block';
-            }
-        }, 3000);
+        // CHANGED: Removed deep link redirect and store link fallback
     </script>
 </body>
 
