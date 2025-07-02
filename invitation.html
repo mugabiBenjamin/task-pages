@@ -49,7 +49,39 @@
             font-size: 14px;
         }
 
-        /* CHANGED: Removed .button and .store-links styles as they are no longer used */
+        .instructions {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .instructions ol {
+            margin: 0;
+            padding-left: 20px;
+            text-align: left;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .copy-button {
+            display: inline-block;
+            background-color: #4285f4;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background-color: #3267d6;
+        }
     </style>
 </head>
 
@@ -62,13 +94,19 @@
         <div class="token-info">
             <p><strong>Invitation Token:</strong></p>
             <p id="token">Loading...</p>
+            <a class="copy-button" onclick="copyToken()">Copy Token</a>
         </div>
 
-        <!-- ADDED: Instructions for testers -->
-        <p>Open the Task Manager app on your test device, sign in with your email, and enter the token above if
-            prompted.</p>
-
-        <!-- CHANGED: Removed <a> button and .store-links section -->
+        <div class="instructions">
+            <p><strong>How to Join Task Manager:</strong></p>
+            <ol>
+                <li>Copy the invitation token above by clicking "Copy Token".</li>
+                <li>Open the Task Manager app on your test device.</li>
+                <li>Sign in with the email address you received the invitation for.</li>
+                <li>Click "Have an Invitation Token?" on the Login screen.</li>
+                <li>Paste the copied token into the token field and submit.</li>
+            </ol>
+        </div>
     </div>
 
     <script>
@@ -76,18 +114,26 @@
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
 
-        // CHANGED: Enhanced error handling
         if (token) {
             document.getElementById('token').textContent = token;
-            // ADDED: Log token for debugging
             console.log('Invitation token:', token);
         } else {
             document.getElementById('token').textContent = 'Invalid invitation link';
-            // ADDED: Log error
             console.log('Error: No token found in URL');
         }
 
-        // CHANGED: Removed deep link redirect and store link fallback
+        // Function to copy token to clipboard
+        function copyToken() {
+            const tokenText = document.getElementById('token').textContent;
+            if (tokenText !== 'Invalid invitation link') {
+                navigator.clipboard.writeText(tokenText).then(() => {
+                    alert('Token copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy token:', err);
+                    alert('Failed to copy token. Please select and copy it manually.');
+                });
+            }
+        }
     </script>
 </body>
 
